@@ -1,0 +1,23 @@
+{
+  "name": "randomideas",
+  "version": "1.0.0",
+  "description": "Idea sharing app",
+  "homepage": "https://github.com/AhmadMuhtady/Random-Ideas-App#readme",
+  "bugs": {
+    "url": "https://github.com/AhmadMuhtady/Random-Ideas-App/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmadMuhtady/Random-Ideas-App.git"
+  },
+  "license": "MIT",
+  "author": "Ahmad Muhtadi",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
