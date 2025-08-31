@@ -35,7 +35,23 @@ const ideas = [
 const app = express();
 
 app.get('/', (req, res) => {
-	res.json({ message: 'Hello World' });
+	res.json({ message: 'Welcome to Random Ideas API' });
+});
+
+// get all ideas
+app.get('/api/ideas', (req, res) => {
+	console.log('API route hit!');
+	res.json({ success: true, data: ideas });
+});
+
+// get idea
+app.get('/api/ideas/:id', (req, res) => {
+	console.log('API route hit!');
+	const idea = ideas.find((idea) => idea.id === +req.params.id);
+	if (!idea) {
+		res.status(404).json({ success: false, error: 'Resource not found' });
+	}
+	res.json({ success: true, data: idea });
 });
 
 app.listen(port, () => {
