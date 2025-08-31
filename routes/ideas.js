@@ -65,4 +65,41 @@ router.post('/', (req, res) => {
 	res.json({ success: true, data: idea });
 });
 
+// put/edit idea
+router.put('/:id', (req, res) => {
+	console.log('API route hit!');
+	const idea = ideas.find((idea) => idea.id === +req.params.id);
+
+	if (!idea) {
+		return res
+			.status(404)
+			.json({ success: false, error: 'Resource not found' });
+	}
+
+	idea.text = req.body.text || idea.text;
+	idea.tag = req.body.tag || idea.tag;
+
+	res.json({ success: true, data: idea });
+});
+
+// delete an idea
+router.delete('/:id', (req, res) => {
+	console.log('DELETE /api/ideas hit!');
+
+	const idToDelete = +req.params.id; // convert to number
+	const idea = ideas.find((idea) => idea.id === idToDelete);
+
+	if (!idea) {
+		return res
+			.status(404)
+			.json({ success: false, error: 'Resource not found' });
+	}
+
+	// remove from array
+	const index = ideas.indexOf(idea);
+	ideas.splice(index, 1);
+
+	res.json({ success: true, data: {} });
+});
+
 module.exports = router;
