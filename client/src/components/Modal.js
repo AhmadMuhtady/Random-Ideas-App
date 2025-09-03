@@ -8,6 +8,11 @@ class Modal {
 	addEventListener() {
 		this._modalBtn.addEventListener('click', this.open.bind(this));
 		window.addEventListener('click', this.outsideClick.bind(this));
+
+		// ✅ Keep `this` bound to Modal instance
+		document.addEventListener('modal:close', () => {
+			this.close();
+		});
 	}
 
 	open() {
