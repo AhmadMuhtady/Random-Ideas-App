@@ -1,36 +1,9 @@
+import IdeaApi from '../services/IdeaApi';
 class IdeaList {
 	constructor() {
 		this._ideaListEl = document.getElementById('idea-list');
-		this._idea = [
-			{
-				id: 1,
-				text: 'Positive NewsLetter, a newsletter that only shares positive, uplifting news',
-				tag: 'Technology',
-				username: 'TonyStark',
-				date: '2022-01-02',
-			},
-			{
-				id: 2,
-				text: 'Milk cartons that turn a different color the older that your milk is getting',
-				tag: 'Inventions',
-				username: 'SteveRogers',
-				date: '2022-01-02',
-			},
-			{
-				id: 3,
-				text: 'A mobile app that connects local farmers directly with consumers for fresh produce delivery',
-				tag: 'Business',
-				username: 'NatashaRomanoff',
-				date: '2022-01-03',
-			},
-			{
-				id: 4,
-				text: 'Smart water bottles that remind you to stay hydrated and track your daily water intake',
-				tag: 'Health',
-				username: 'BruceBanner',
-				date: '2022-01-04',
-			},
-		];
+		this._ideas = [];
+		this.getIdeas();
 		this._validTags = new Set();
 		this._validTags.add('technology');
 		this._validTags.add('software');
@@ -38,6 +11,16 @@ class IdeaList {
 		this._validTags.add('education');
 		this._validTags.add('health');
 		this._validTags.add('inventions');
+	}
+
+	async getIdeas() {
+		try {
+			const res = await IdeaApi.getIdeas();
+			this._ideas = res.data.data;
+			this.render();
+		} catch (error) {
+			console.error('Error in GET /api/ideas:', error);
+		}
 	}
 
 	getClassTag(tag) {
@@ -52,7 +35,7 @@ class IdeaList {
 	}
 
 	render() {
-		this._ideaListEl.innerHTML = this._idea
+		this._ideaListEl.innerHTML = this._ideas
 			.map((idea) => {
 				const tagClass = this.getClassTag(idea.tag);
 				return `
@@ -63,7 +46,7 @@ ${idea.text}
 					</h3>
 					<p class="tag ${tagClass}">${idea.tag.toUpperCase()}</p>
 					<p>
-						Posted on <span class="date">${idea.date}</span> by
+						Posted on <span class="date">${idea.date.slice(0, 10)}</span> by
 						<span class="author">${idea.username}</span>
 					</p>
 				</div>`;
